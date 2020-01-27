@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  JFTDemoListController.h
 //  JFTTextDraw
 //
 //  Created by 於林涛 on 2020/1/27.
@@ -8,8 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
+NS_ASSUME_NONNULL_BEGIN
 
+@interface JFTDemoListController : UITableViewController
 
 @end
 
+NS_ASSUME_NONNULL_END
