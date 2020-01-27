@@ -23,11 +23,6 @@
     return self;
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
-}
-
 - (CGSize)preferredSize {
     self.textView.frame = self.bounds;
     [self.textView sizeToFit];
