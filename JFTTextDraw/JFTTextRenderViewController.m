@@ -22,8 +22,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.view addSubview:self.textContainerView];
-    CGFloat width = [UIScreen mainScreen].bounds.size.width;
-    self.textContainerView.frame = CGRectMake(0, 0, width - 60, 0);
+    CGFloat width = [UIScreen mainScreen].bounds.size.width - 60;
+    self.textContainerView.frame = CGRectMake(0, 0, width, 0);
+    [self.textContainerView setNeedsLayout];
+    [self.textContainerView layoutIfNeeded];
     CGSize size = [self.textContainerView preferredSize];
     [self.textContainerView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.equalTo(@(size));

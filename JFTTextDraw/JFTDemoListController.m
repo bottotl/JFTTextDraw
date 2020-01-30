@@ -9,6 +9,8 @@
 #import "JFTDemoListController.h"
 #import "JFTTextViewRender.h"
 #import "JFTLabelRender.h"
+#import "JFTTextLayerRender.h"
+#import "JFTTextKitRender.h"
 #import "JFTTextRenderViewController.h"
 
 @interface JFTDemoListCell : UITableViewCell
@@ -50,6 +52,19 @@
             JFTCellModel *model = [JFTCellModel new];
             model.name = @"label";
             model.cls = JFTLabelRender.class;
+            model;
+        })];
+        [models addObject:({
+            JFTCellModel *model = [JFTCellModel new];
+            model.name = @"textLayer";
+            model.cls = JFTTextLayerRender.class;
+            model;
+        })];
+        
+        [models addObject:({
+            JFTCellModel *model = [JFTCellModel new];
+            model.name = @"textKit";
+            model.cls = JFTTextKitRender.class;
             model;
         })];
         _models = models;
