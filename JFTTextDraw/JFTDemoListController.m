@@ -11,6 +11,7 @@
 #import "JFTLabelRender.h"
 #import "JFTTextLayerRender.h"
 #import "JFTTextKitRender.h"
+#import "JFTCoreTextRender.h"
 #import "JFTTextRenderViewController.h"
 
 @interface JFTDemoListCell : UITableViewCell
@@ -60,13 +61,19 @@
             model.cls = JFTTextLayerRender.class;
             model;
         })];
-        
         [models addObject:({
             JFTCellModel *model = [JFTCellModel new];
             model.name = @"textKit";
             model.cls = JFTTextKitRender.class;
             model;
         })];
+        [models addObject:({
+            JFTCellModel *model = [JFTCellModel new];
+            model.name = @"coreText";
+            model.cls = JFTCoreTextRender.class;
+            model;
+        })];
+        
         _models = models;
     }
     return _models;

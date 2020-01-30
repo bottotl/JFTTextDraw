@@ -20,6 +20,7 @@
 		345273B223DED20E002F5CB1 /* JFTTextViewRender.m in Sources */ = {isa = PBXBuildFile; fileRef = 345273B123DED20E002F5CB1 /* JFTTextViewRender.m */; };
 		345273B523DEDBF3002F5CB1 /* JFTLabelRender.m in Sources */ = {isa = PBXBuildFile; fileRef = 345273B423DEDBF3002F5CB1 /* JFTLabelRender.m */; };
 		345273B823E07237002F5CB1 /* JFTTextLayerRender.m in Sources */ = {isa = PBXBuildFile; fileRef = 345273B723E07237002F5CB1 /* JFTTextLayerRender.m */; };
+		34B3134223E287B800ADC9D7 /* JFTCoreTextRender.m in Sources */ = {isa = PBXBuildFile; fileRef = 34B3134123E287B800ADC9D7 /* JFTCoreTextRender.m */; };
 		988C8F4016FBBD921E30BFA6 /* Pods_JFTTextDraw.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86922E5899E27C8537909328 /* Pods_JFTTextDraw.framework */; };
 /* End PBXBuildFile section */
 
@@ -48,6 +49,8 @@
 		345273B423DEDBF3002F5CB1 /* JFTLabelRender.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JFTLabelRender.m; sourceTree = "<group>"; };
 		345273B623E07237002F5CB1 /* JFTTextLayerRender.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JFTTextLayerRender.h; sourceTree = "<group>"; };
 		345273B723E07237002F5CB1 /* JFTTextLayerRender.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JFTTextLayerRender.m; sourceTree = "<group>"; };
+		34B3134023E287B800ADC9D7 /* JFTCoreTextRender.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JFTCoreTextRender.h; sourceTree = "<group>"; };
+		34B3134123E287B800ADC9D7 /* JFTCoreTextRender.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JFTCoreTextRender.m; sourceTree = "<group>"; };
 		36C75046508BCBB89E7B7877 /* Pods-JFTTextDraw.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JFTTextDraw.debug.xcconfig"; path = "Target Support Files/Pods-JFTTextDraw/Pods-JFTTextDraw.debug.xcconfig"; sourceTree = "<group>"; };
 		86922E5899E27C8537909328 /* Pods_JFTTextDraw.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_JFTTextDraw.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		89297BC2D3C1B0289CF6760C /* Pods-JFTTextDraw.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JFTTextDraw.release.xcconfig"; path = "Target Support Files/Pods-JFTTextDraw/Pods-JFTTextDraw.release.xcconfig"; sourceTree = "<group>"; };
@@ -117,6 +120,8 @@
 				345273B723E07237002F5CB1 /* JFTTextLayerRender.m */,
 				340496D523E18114004D811D /* JFTTextKitRender.h */,
 				340496D623E18114004D811D /* JFTTextKitRender.m */,
+				34B3134023E287B800ADC9D7 /* JFTCoreTextRender.h */,
+				34B3134123E287B800ADC9D7 /* JFTCoreTextRender.m */,
 			);
 			path = Renders;
 			sourceTree = "<group>";
@@ -252,6 +257,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				34B3134223E287B800ADC9D7 /* JFTCoreTextRender.m in Sources */,
 				3452738F23DEC5EF002F5CB1 /* AppDelegate.m in Sources */,
 				345273A023DEC5F2002F5CB1 /* main.m in Sources */,
 				3452739223DEC5EF002F5CB1 /* SceneDelegate.m in Sources */,
