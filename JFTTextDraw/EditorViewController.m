@@ -10,10 +10,19 @@
 #import "JFTOperateView.h"
 #import "JFTProject.h"
 
-@interface EditorViewController ()
+@interface EditorViewController ()<UIGestureRecognizerDelegate>
 @property (nonatomic) UIImageView *playerView;
 @property (nonatomic) JFTOperateView *operateView;
 @property (nonatomic) CADisplayLink *displayLink;
+
+@property (nonatomic, assign) CGPoint centerBeforeDragStart;
+
+@property (nonatomic, assign) CGFloat scaleBefore;
+@property (nonatomic, assign) CGFloat rotationBefore;
+
+@property (nonatomic, strong) UIPanGestureRecognizer *panGestureRecognizer;
+@property (nonatomic, strong) UIPinchGestureRecognizer *pinchGestureRecognizer;
+
 @end
 
 @implementation EditorViewController
@@ -42,6 +51,7 @@
     _displayLink.preferredFramesPerSecond = 30;
     [_displayLink addToRunLoop:[NSRunLoop mainRunLoop]
                        forMode:NSRunLoopCommonModes];
+    [self addGesture];
 }
 
 - (void)tick {
@@ -58,21 +68,67 @@
 }
 
 - (void)testApplyState {
-    // 输入框缩放2倍，旋转45，平移个 20 point, 40 point
     [self.operateView applyOperate:({
         JFTOperateViewTextViewOperate *op = [JFTOperateViewTextViewOperate new];
         op.center = ({
             CGRect rect = self.operateView.bounds;
             CGPoint center = CGPointMake(CGRectGetMidX(rect),
                                          CGRectGetMidY(rect));
-            CGFloat x = center.x + 20;
-            CGFloat y = center.y + 40;
+            CGFloat x = center.x;
+            CGFloat y = center.y;
             CGPointMake(x, y);
         });
-        op.scale = 6;
-        op.rotate = M_PI_4;
+        op.scale = 1;
+        op.rotate = 0;
         op;
     })];
+}
+
+#pragma mark -
+
+- (void)addGesture {
+    UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(p_didDragBanner:)];
+    pan.delegate = self;
+    _panGestureRecognizer = pan;
+    [self.playerView addGestureRecognizer:pan];
+    
+    UIPinchGestureRecognizer *pinch = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(p_didPinchBubbleView:)];
+    pinch.delegate = self;
+    _pinchGestureRecognizer = pinch;
+    [self.playerView addGestureRecognizer:pinch];
+}
+
+- (CGFloat)shapeRotate {
+    return self.operateView.currentState.rotate;
+}
+
+- (CGFloat)shapeScale {
+    return self.operateView.currentState.scale;
+}
+
+- (void)p_didDragBanner:(UIPanGestureRecognizer *)sender {
+    if (UIGestureRecognizerStateBegan == sender.state) {
+        self.centerBeforeDragStart = self.playerView.center;
+    } else if (UIGestureRecognizerStateChanged == sender.state || UIGestureRecognizerStateEnded == sender.state) {
+        CGPoint t = [sender translationInView:self.playerView];
+        CGPoint center = self.centerBeforeDragStart;
+        center.y += t.y;
+        center.x += t.x;
+        
+        JFTOperateViewTextViewOperate *op = self.operateView.currentState;
+        op.center = center;
+        [self.operateView applyOperate:op];
+    }
+}
+
+- (void)p_didPinchBubbleView:(UIPinchGestureRecognizer *)recognizer {
+    JFTOperateViewTextViewOperate *op = self.operateView.currentState;
+    if (UIGestureRecognizerStateBegan == recognizer.state) {
+        self.scaleBefore = self.shapeScale;
+    } else if (UIGestureRecognizerStateChanged == recognizer.state || UIGestureRecognizerStateEnded == recognizer.state) {
+        op.scale = recognizer.scale * self.scaleBefore;
+        [self.operateView applyOperate:op];
+    }
 }
 
 @end

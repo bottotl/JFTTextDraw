@@ -23,9 +23,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithProject:(JFTProject *)project;
 
-- (void)addText;
+/// 随便加了个方法，这个方法封装度不是很好。
+@property (nonatomic, readonly) JFTOperateViewTextViewOperate *currentState;
 
 - (void)applyOperate:(JFTOperateViewTextViewOperate *)operate;
+
+- (void)addText;
 
 /// 模拟绘制到视频上
 - (void)renderToContext:(CGContextRef)ctx;

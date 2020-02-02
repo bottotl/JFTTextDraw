@@ -16,6 +16,9 @@
 @property (nonatomic) JFTTextStickerLayer *testLayer;
 @property (nonatomic) UIView *debugCenterView;
 @property (nonatomic) NSDictionary *textViewAttributes;
+
+@property (nonatomic) JFTOperateViewTextViewOperate *currentState;
+
 @end
 
 @implementation JFTOperateView
@@ -93,6 +96,7 @@
 }
 
 - (void)applyOperate:(JFTOperateViewTextViewOperate *)operate {
+    self.currentState = operate;
     CGAffineTransform transform = CGAffineTransformScale(CGAffineTransformRotate(CGAffineTransformIdentity, operate.rotate), operate.scale, operate.scale);
     self.textView.transform = transform;
     self.debugCenterView.transform = transform;
