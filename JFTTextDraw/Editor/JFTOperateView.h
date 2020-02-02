@@ -28,8 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)applyOperate:(JFTOperateViewTextViewOperate *)operate;
 
 /// 模拟绘制到视频上
-/// @param image 视频的某一帧
-- (void)renderToImage:(UIImage *)image;
+- (void)renderToContext:(CGContextRef)ctx;
 
 @end
 

@@ -13,6 +13,7 @@
 @interface EditorViewController ()
 @property (nonatomic) UIImageView *playerView;
 @property (nonatomic) JFTOperateView *operateView;
+@property (nonatomic) CADisplayLink *displayLink;
 @end
 
 @implementation EditorViewController
@@ -21,6 +22,7 @@
     
     _playerView = [UIImageView new];
     _playerView.userInteractionEnabled = YES;
+    _playerView.contentMode = UIViewContentModeScaleAspectFit;
     _playerView.backgroundColor = [[UIColor redColor] colorWithAlphaComponent:0.3];
     [self.view addSubview:_playerView];
     
@@ -36,6 +38,17 @@
     dispatch_async(dispatch_get_main_queue(), ^(void){
         [self testApplyState];
     });
+    _displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(tick)];
+    _displayLink.preferredFramesPerSecond = 30;
+    [_displayLink addToRunLoop:[NSRunLoop mainRunLoop]
+                       forMode:NSRunLoopCommonModes];
+}
+
+- (void)tick {
+    UIGraphicsBeginImageContextWithOptions(CGSizeMake(1080, 1920), NO, 1);
+    [self.operateView renderToContext:UIGraphicsGetCurrentContext()];
+    self.playerView.image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
 }
 
 - (void)viewDidLayoutSubviews {
@@ -56,7 +69,7 @@
             CGFloat y = center.y + 40;
             CGPointMake(x, y);
         });
-        op.scale = 3;
+        op.scale = 6;
         op.rotate = M_PI_4;
         op;
     })];

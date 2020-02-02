@@ -15,6 +15,7 @@
 @property (nonatomic) UITextView *textView;
 @property (nonatomic) JFTTextStickerLayer *testLayer;
 @property (nonatomic) UIView *debugCenterView;
+@property (nonatomic) NSDictionary *textViewAttributes;
 @end
 
 @implementation JFTOperateView
@@ -44,20 +45,24 @@
     JFTTextModel *model = [JFTTextModel new];
     model.text = @"测试文字贴纸绘制逻辑";
     model.attributes = @{NSFontAttributeName : [UIFont systemFontOfSize:36.0]};
+    NSMutableDictionary *textViewAttributes = model.attributes.mutableCopy;
+    textViewAttributes[NSForegroundColorAttributeName] = [UIColor clearColor];
+    self.textViewAttributes = textViewAttributes;
     self.textView.attributedText
     = [[NSAttributedString alloc] initWithString:model.text
-                                      attributes:model.attributes];
+                                      attributes:textViewAttributes];
     
     self.testLayer = [[JFTTextStickerLayer alloc] initWithProject:self.project];
     self.testLayer.model = model;
-    [self.layer addSublayer:self.testLayer];
+    
+//    [self.layer addSublayer:self.testLayer];
     [self updateTextView];
+    [self.testLayer syncTextView:self.textView];
 }
 
 - (void)updateTextView {
-    JFTTextModel *model = self.testLayer.model;
     CGFloat maxWidth = 280.0;// 36 号的7个中文字大致这么宽
-    self.textView.typingAttributes = model.attributes;
+    self.textView.typingAttributes = self.textViewAttributes;
     self.textView.bounds = (CGRect){CGPointZero, CGSizeMake(maxWidth, 0)};
     [self.textView sizeToFit];
 }
@@ -109,8 +114,8 @@
     })];
 }
 
-- (void)renderToImage:(UIImage *)image {
-    
+- (void)renderToContext:(CGContextRef)ctx {
+    [self.testLayer renderInContext:ctx];
 }
 
 #pragma mark - TextViewDelegate

@@ -31,6 +31,7 @@
 }
 
 - (void)syncTextView:(UITextView *)textView {
+    self.render.textAttributes = self.model.attributes;
     [self.render updateRenderWithTextView:textView];
     self.textViewSize = [textView jft_boundingRect].size;
     [self setNeedsDisplay];
@@ -67,6 +68,10 @@
     CGContextTranslateCTM(ctx, -size.width / 2.0, -size.height/ 2.0);
     
     [self.render drawInContext:ctx];
+}
+
+- (void)renderInContext:(CGContextRef)ctx {
+    [self drawLayer:self inContext:ctx];
 }
 
 - (CGPoint)textCenter {
