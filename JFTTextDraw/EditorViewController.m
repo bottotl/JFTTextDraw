@@ -36,7 +36,7 @@ static CGSize exportSize;
     _playerView.contentMode = UIViewContentModeScaleAspectFit;
     _playerView.backgroundColor = [[UIColor redColor] colorWithAlphaComponent:0.3];
     [self.view addSubview:_playerView];
-    exportSize = CGSizeMake(2160, 4096);
+    exportSize = CGSizeMake(1080, 1920);
     _operateView = [[JFTOperateView alloc] initWithProject:({
         JFTProject *project = [JFTProject new];
         project.exportSize = exportSize;
