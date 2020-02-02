@@ -10,6 +10,8 @@
 #import "JFTOperateView.h"
 #import "JFTProject.h"
 
+static CGSize exportSize;
+
 @interface EditorViewController ()<UIGestureRecognizerDelegate>
 @property (nonatomic) UIImageView *playerView;
 @property (nonatomic) JFTOperateView *operateView;
@@ -34,10 +36,10 @@
     _playerView.contentMode = UIViewContentModeScaleAspectFit;
     _playerView.backgroundColor = [[UIColor redColor] colorWithAlphaComponent:0.3];
     [self.view addSubview:_playerView];
-    
+    exportSize = CGSizeMake(2160, 4096);
     _operateView = [[JFTOperateView alloc] initWithProject:({
         JFTProject *project = [JFTProject new];
-        project.exportSize = CGSizeMake(1080, 1920);
+        project.exportSize = exportSize;
         project.previewSize = CGSizeMake(720, 1280);
         project;
     })];
@@ -46,16 +48,18 @@
     [self.operateView addText];
     dispatch_async(dispatch_get_main_queue(), ^(void){
         [self testApplyState];
+        [self tick];
     });
     _displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(tick)];
     _displayLink.preferredFramesPerSecond = 60;
     [_displayLink addToRunLoop:[NSRunLoop mainRunLoop]
                        forMode:NSRunLoopCommonModes];
+    [_displayLink setPaused:YES];
     [self addGesture];
 }
 
 - (void)tick {
-    UIGraphicsBeginImageContextWithOptions(CGSizeMake(1080, 1920), NO, 1);
+    UIGraphicsBeginImageContextWithOptions(exportSize, NO, 1);
     [self.operateView renderToContext:UIGraphicsGetCurrentContext()];
     self.playerView.image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
@@ -109,6 +113,7 @@
 - (void)p_didDragBanner:(UIPanGestureRecognizer *)sender {
     if (UIGestureRecognizerStateBegan == sender.state) {
         self.centerBeforeDragStart = self.operateView.currentState.center;
+        [self.displayLink setPaused:NO];
     } else if (UIGestureRecognizerStateChanged == sender.state || UIGestureRecognizerStateEnded == sender.state) {
         CGPoint t = [sender translationInView:self.playerView];
         CGPoint center = self.centerBeforeDragStart;
@@ -118,6 +123,9 @@
         JFTOperateViewTextViewOperate *op = self.operateView.currentState;
         op.center = center;
         [self.operateView applyOperate:op];
+        if (sender.state == UIGestureRecognizerStateEnded) {
+            [self.displayLink setPaused:YES];
+        }
     }
 }
 
@@ -125,9 +133,14 @@
     JFTOperateViewTextViewOperate *op = self.operateView.currentState;
     if (UIGestureRecognizerStateBegan == recognizer.state) {
         self.scaleBefore = self.shapeScale;
+        [self.displayLink setPaused:NO];
     } else if (UIGestureRecognizerStateChanged == recognizer.state || UIGestureRecognizerStateEnded == recognizer.state) {
         op.scale = recognizer.scale * self.scaleBefore;
         [self.operateView applyOperate:op];
+        
+        if (recognizer.state == UIGestureRecognizerStateEnded) {
+            [self.displayLink setPaused:YES];
+        }
     }
 }
 
