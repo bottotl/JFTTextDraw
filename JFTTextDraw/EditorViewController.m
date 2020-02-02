@@ -48,7 +48,7 @@
         [self testApplyState];
     });
     _displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(tick)];
-    _displayLink.preferredFramesPerSecond = 30;
+    _displayLink.preferredFramesPerSecond = 60;
     [_displayLink addToRunLoop:[NSRunLoop mainRunLoop]
                        forMode:NSRunLoopCommonModes];
     [self addGesture];
@@ -108,7 +108,7 @@
 
 - (void)p_didDragBanner:(UIPanGestureRecognizer *)sender {
     if (UIGestureRecognizerStateBegan == sender.state) {
-        self.centerBeforeDragStart = self.playerView.center;
+        self.centerBeforeDragStart = self.operateView.currentState.center;
     } else if (UIGestureRecognizerStateChanged == sender.state || UIGestureRecognizerStateEnded == sender.state) {
         CGPoint t = [sender translationInView:self.playerView];
         CGPoint center = self.centerBeforeDragStart;
