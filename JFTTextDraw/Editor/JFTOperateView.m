@@ -127,7 +127,6 @@
     self.testLayer.model.text = textView.text;
     [self updateTextView];
     [self.testLayer syncTextView:textView];
-    
 }
 
 @end
